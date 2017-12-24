@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=infodata;Initial Catalog=601-Group11-DW-Area</ConnectString>
+        <Prompt>Specify a user name and password for data source DataSource1:</Prompt>
+      </ConnectionProperties>
+      <rd:SecurityType>DataBase</rd:SecurityType>
+      <rd:DataSourceID>22bc3127-f208-4c70-ab76-5f1e9981f806</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT
+  COUPON_DIM.COUPON_ID AS [COUPON_DIM COUPON_ID]
+  ,COUPON_DIM.COUPON_REDEEMED
+  ,TIME_DIM.TIME_ID AS [TIME_DIM TIME_ID]
+  ,TIME_DIM.WEEK
+  ,STORE_VISITS_FACT.COUPON_ID AS [STORE_VISITS_FACT COUPON_ID]
+  ,STORE_VISITS_FACT.TIME_ID AS [STORE_VISITS_FACT TIME_ID]
+  ,STORE_VISITS_FACT.CUSTOMER_COUNT
+FROM
+  STORE_VISITS_FACT
+  INNER JOIN TIME_DIM
+    ON STORE_VISITS_FACT.TIME_ID = TIME_DIM.TIME_ID
+  INNER JOIN COUPON_DIM
+    ON STORE_VISITS_FACT.COUPON_ID = COUPON_DIM.COUPON_ID</CommandText>
+        <rd:DesignerState><QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational"><SelectedColumns><ColumnExpression ColumnOwner="COUPON_DIM" ColumnName="COUPON_ID" /><ColumnExpression ColumnOwner="COUPON_DIM" ColumnName="COUPON_REDEEMED" /><ColumnExpression ColumnOwner="TIME_DIM" ColumnName="TIME_ID" /><ColumnExpression ColumnOwner="TIME_DIM" ColumnName="WEEK" /><ColumnExpression ColumnOwner="STORE_VISITS_FACT" ColumnName="COUPON_ID" /><ColumnExpression ColumnOwner="STORE_VISITS_FACT" ColumnName="TIME_ID" /><ColumnExpression ColumnOwner="STORE_VISITS_FACT" ColumnName="CUSTOMER_COUNT" /></SelectedColumns><Joins><Join Type="CROSS JOIN" ColumnOwner="STORE_VISITS_FACT" /><Join Type="INNER JOIN" ColumnOwner="TIME_DIM"><On><From ColumnOwner="STORE_VISITS_FACT" ColumnName="TIME_ID" /><To ColumnOwner="TIME_DIM" ColumnName="TIME_ID" /></On></Join><Join Type="INNER JOIN" ColumnOwner="COUPON_DIM"><On><From ColumnOwner="STORE_VISITS_FACT" ColumnName="COUPON_ID" /><To ColumnOwner="COUPON_DIM" ColumnName="COUPON_ID" /></On></Join></Joins></QueryDefinition></rd:DesignerState>
+      </Query>
+      <Fields>
+        <Field Name="COUPON_DIM_COUPON_ID">
+          <DataField>COUPON_DIM COUPON_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="COUPON_REDEEMED">
+          <DataField>COUPON_REDEEMED</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="TIME_DIM_TIME_ID">
+          <DataField>TIME_DIM TIME_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="WEEK">
+          <DataField>WEEK</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="STORE_VISITS_FACT_COUPON_ID">
+          <DataField>STORE_VISITS_FACT COUPON_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="STORE_VISITS_FACT_TIME_ID">
+          <DataField>STORE_VISITS_FACT TIME_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CUSTOMER_COUNT">
+          <DataField>CUSTOMER_COUNT</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Chart Name="Chart1">
+            <ChartCategoryHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="Chart1_CategoryGroup">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!WEEK.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!WEEK.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <Label>=Fields!WEEK.Value</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartCategoryHierarchy>
+            <ChartSeriesHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Label>CUSTOMER COUNT</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartSeriesHierarchy>
+            <ChartData>
+              <ChartSeriesCollection>
+                <ChartSeries Name="CUSTOMER_COUNT">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!CUSTOMER_COUNT.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style>
+                          <FontFamily>Times New Roman</FontFamily>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                      </ChartDataLabel>
+                      <ToolTip>#VALY</ToolTip>
+                      <Style />
+                      <ChartMarker>
+                        <Style />
+                      </ChartMarker>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Style>
+                    <ShadowColor>DimGray</ShadowColor>
+                    <ShadowOffset>1pt</ShadowOffset>
+                  </Style>
+                  <ChartEmptyPoints>
+                    <Style />
+                    <ChartMarker>
+                      <Style />
+                    </ChartMarker>
+                    <ChartDataLabel>
+                      <Style />
+                    </ChartDataLabel>
+                  </ChartEmptyPoints>
+                  <ValueAxisName>Primary</ValueAxisName>
+                  <CategoryAxisName>Primary</CategoryAxisName>
+                  <ChartSmartLabel>
+                    <CalloutLineColor>Black</CalloutLineColor>
+                    <MinMovingDistance>0pt</MinMovingDistance>
+                  </ChartSmartLabel>
+                </ChartSeries>
+              </ChartSeriesCollection>
+            </ChartData>
+            <ChartAreas>
+              <ChartArea Name="Default">
+                <ChartCategoryAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                      </Border>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Axis Title</Caption>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </ChartAxisTitle>
+                    <Interval>1</Interval>
+                    <ChartMajorGridLines>
+                      <Enabled>False</Enabled>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Scalar>true</Scalar>
+                    <Minimum>100</Minimum>
+                    <Maximum>150</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                  <ChartAxis Name="Secondary">
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                      </Border>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Axis Title</Caption>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Enabled>False</Enabled>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Location>Opposite</Location>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                </ChartCategoryAxes>
+                <ChartValueAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                      </Border>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Axis Title</Caption>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                  <ChartAxis Name="Secondary">
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                      </Border>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Axis Title</Caption>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Location>Opposite</Location>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                </ChartValueAxes>
+                <Style>
+                  <BackgroundColor>#e7f5f5</BackgroundColor>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                </Style>
+              </ChartArea>
+            </ChartAreas>
+            <ChartLegends>
+              <ChartLegend Name="Default">
+                <Style>
+                  <Border>
+                    <Color>#588658</Color>
+                  </Border>
+                  <BackgroundColor>#e7f5f5</BackgroundColor>
+                  <BackgroundGradientType>TopBottom</BackgroundGradientType>
+                  <BackgroundGradientEndColor>#acebb1</BackgroundGradientEndColor>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartLegendTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </ChartLegendTitle>
+                <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+                <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+              </ChartLegend>
+            </ChartLegends>
+            <ChartTitles>
+              <ChartTitle Name="Default">
+                <Caption>Chart Title</Caption>
+                <Style>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextAlign>General</TextAlign>
+                  <VerticalAlign>Top</VerticalAlign>
+                </Style>
+              </ChartTitle>
+            </ChartTitles>
+            <Palette>Custom</Palette>
+            <ChartCustomPaletteColors>
+              <ChartCustomPaletteColor>#708270</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#ebc47f</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#979cc2</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#66a068</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#b8c09e</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#78b07c</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#76719f</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#9aa87a</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#588658</ChartCustomPaletteColor>
+              <ChartCustomPaletteColor>#81c5a9</ChartCustomPaletteColor>
+            </ChartCustomPaletteColors>
+            <ChartBorderSkin>
+              <ChartBorderSkinType>Emboss</ChartBorderSkinType>
+              <Style>
+                <BackgroundColor>Gray</BackgroundColor>
+                <BackgroundGradientType>None</BackgroundGradientType>
+                <Color>White</Color>
+              </Style>
+            </ChartBorderSkin>
+            <ChartNoDataMessage Name="NoDataMessage">
+              <Caption>No Data Available</Caption>
+              <Style>
+                <BackgroundGradientType>None</BackgroundGradientType>
+                <FontFamily>Times New Roman</FontFamily>
+                <FontSize>8pt</FontSize>
+                <TextAlign>General</TextAlign>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+            </ChartNoDataMessage>
+            <DataSetName>DataSet1</DataSetName>
+            <Top>0.4in</Top>
+            <Height>3.11667in</Height>
+            <Width>11.98958in</Width>
+            <Style>
+              <Border>
+                <Color>#588658</Color>
+                <Style>Solid</Style>
+                <Width>2pt</Width>
+              </Border>
+              <BackgroundColor>#acebb1</BackgroundColor>
+              <BackgroundGradientType>TopBottom</BackgroundGradientType>
+              <BackgroundGradientEndColor>#e7f5f5</BackgroundGradientEndColor>
+            </Style>
+          </Chart>
+          <Textbox Name="ReportTitle">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value />
+                    <Style>
+                      <FontFamily>Verdana</FontFamily>
+                      <FontSize>20pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:WatermarkTextbox>Title</rd:WatermarkTextbox>
+            <rd:DefaultName>ReportTitle</rd:DefaultName>
+            <Height>0.4in</Height>
+            <Width>5.5in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+        </ReportItems>
+        <Height>3.51667in</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>11.98958in</Width>
+      <Page>
+        <PageFooter>
+          <Height>0.45in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="ExecutionTime">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!ExecutionTime</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>ExecutionTime</rd:DefaultName>
+              <Top>0.2in</Top>
+              <Left>4in</Left>
+              <Height>0.25in</Height>
+              <Width>2in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>727ed235-a635-4a4e-b4d7-1c3d07805262</rd:ReportID>
+</Report>
